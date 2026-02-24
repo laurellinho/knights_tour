@@ -14,25 +14,35 @@ def solve(board: Board, knight: Knight):
         try_make_move(knight, board)
 
 
-def try_make_move(knight: Knight, board: Board):
+def try_make_move(knight: Knight, board: Board) -> bool:
+    if board.has_been_solved():
+        return True
+
     valid_moves = knight.find_valid_moves(knight.pos, board)
     if len(valid_moves) == 0:
-        return
-    else:
-        next_move = valid_moves[0]
-        new_knight = Knight(knight.pos.add(next_move))
+        return False
+    
+    for move in valid_moves:
+        new_pos = knight.pos.add(move)
+        new_knight = Knight(knight.pos.add(move))
         board.visit(new_knight.pos)
         board.visualize()
-        time.sleep(0.2)
-        try_make_move(new_knight, board)
+        time.sleep(0.05)
+        if try_make_move(new_knight, board):
+            return True
+        
+        board.unvisit(new_pos)
+
+    return False
 
 
 if __name__ == '__main__':
-    n = 8
+    n = 6
     start_pos = Position(0,0,n)
     chessboard = Board(n, start_pos)
     knight: Knight = Knight(start_pos)
     chessboard
     print("starting solve")
     solve(chessboard, knight)
+    print("Solved")
     

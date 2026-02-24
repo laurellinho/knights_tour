@@ -13,6 +13,10 @@ class Board():
         self.board[pos.y_pos][pos.x_pos] = '[X]'
         return self
     
+    def unvisit(self, pos: Position) -> "Board":
+        self.board[pos.y_pos][pos.x_pos] = '[ ]'
+        return self
+    
     def has_not_been_visited(self, pos: Position) -> bool:
         if self.board[pos.y_pos][pos.x_pos] == '[ ]':
             return True
